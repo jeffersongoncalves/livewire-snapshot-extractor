@@ -102,17 +102,23 @@ async function runExtraction() {
     if (!tab?.id) throw new Error('No active tab found');
     elPageUrl.textContent = tab.url || '';
 
-    let response;
-    try {
-      response = await chrome.tabs.sendMessage(tab.id, { action: 'extractSnapshots', slimMode });
-    } catch {
-      await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['src/content.js'] });
-      response = await chrome.tabs.sendMessage(tab.id, { action: 'extractSnapshots', slimMode });
-    }
+    // Inject content script then call the extractor directly.
+    // activeTab permission grants scripting access on user gesture — no host_permissions needed.
+    await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ['src/content.js'],
+    });
 
-    if (!response?.success) throw new Error(response?.error || 'Extraction failed');
+    const [{ result }] = await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: (slim) => window.__livewireExtractor?.(slim) ?? null,
+      args: [slimMode],
+    });
 
-    extractedData = response.data;
+    if (!result) throw new Error('Extractor not available on this page');
+    if (result.errors?.some(e => e.fatal)) throw new Error(result.errors[0].message);
+
+    extractedData = result;
     if (!extractedData.components?.length) { showState('empty'); return; }
 
     updateVersionBadge(extractedData.version);

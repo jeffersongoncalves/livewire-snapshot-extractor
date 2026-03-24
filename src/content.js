@@ -211,17 +211,5 @@ function extractLivewireSnapshots(slimMode = true) {
   return results;
 }
 
-// ─── Message listener ─────────────────────────────────────────────────
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === 'extractSnapshots') {
-    try {
-      const data = extractLivewireSnapshots(request.slimMode !== false);
-      sendResponse({ success: true, data });
-    } catch (err) {
-      sendResponse({ success: false, error: err.message });
-    }
-  }
-  return true;
-});
-
+// Expose extractor for direct call via scripting.executeScript
 window.__livewireExtractor = extractLivewireSnapshots;

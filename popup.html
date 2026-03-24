@@ -2,630 +2,323 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Livewire Snapshot Extractor</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@700;800&display=swap');
 
     :root {
-      --bg:        #0d0f14;
-      --bg2:       #13161d;
-      --bg3:       #1a1e27;
-      --border:    #252a36;
-      --border2:   #2e3547;
-      --text:      #e2e6f0;
-      --text2:     #8892a4;
-      --text3:     #545f72;
-      --accent:    #f97316;
-      --accent2:   #fb923c;
-      --green:     #4ade80;
-      --blue:      #60a5fa;
-      --purple:    #a78bfa;
-      --red:       #f87171;
-      --yellow:    #fbbf24;
-      --radius:    6px;
-      --radius2:   10px;
+      --bg:      #0d0f14;
+      --bg2:     #13161d;
+      --bg3:     #1a1e27;
+      --border:  #252a36;
+      --border2: #2e3547;
+      --text:    #e2e6f0;
+      --text2:   #8892a4;
+      --text3:   #545f72;
+      --accent:  #f97316;
+      --accent2: #fb923c;
+      --green:   #4ade80;
+      --blue:    #60a5fa;
+      --purple:  #a78bfa;
+      --red:     #f87171;
+      --yellow:  #fbbf24;
+      --r:       6px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       width: 420px;
-      min-height: 500px;
       max-height: 600px;
+      min-height: 480px;
       background: var(--bg);
       color: var(--text);
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
     /* ── Header ── */
     .header {
       background: var(--bg2);
       border-bottom: 1px solid var(--border);
-      padding: 12px 14px 10px;
+      padding: 10px 14px 8px;
       flex-shrink: 0;
     }
 
     .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .logo { display: flex; align-items: center; gap: 8px; }
 
     .logo-icon {
-      width: 28px; height: 28px;
+      width: 26px; height: 26px;
       background: linear-gradient(135deg, var(--accent), #c2410c);
       border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 14px;
-      flex-shrink: 0;
-      box-shadow: 0 2px 8px rgba(249,115,22,0.3);
-    }
-
-    .logo-text {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
       font-size: 13px;
-      color: var(--text);
-      letter-spacing: -0.3px;
-      line-height: 1.2;
+      box-shadow: 0 2px 8px rgba(249,115,22,.3);
     }
 
-    .logo-sub {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
-      color: var(--text3);
-      font-weight: 400;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
+    .logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 12px; }
+    .logo-sub  { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; }
 
-    .badge {
-      font-size: 9px;
-      font-weight: 600;
-      padding: 2px 7px;
-      border-radius: 20px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
+    .badge { font-size: 9px; font-weight: 600; padding: 2px 7px; border-radius: 20px; letter-spacing: .5px; }
+    .badge-lw { background: rgba(249,115,22,.15); color: var(--accent2); border: 1px solid rgba(249,115,22,.25); }
+    .badge-v2 { background: rgba(96,165,250,.15);  color: var(--blue);    border: 1px solid rgba(96,165,250,.25); }
+    .badge-v4 { background: rgba(167,139,250,.15); color: var(--purple);  border: 1px solid rgba(167,139,250,.25); }
 
-    .badge-lw {
-      background: rgba(249,115,22,0.15);
-      color: var(--accent2);
-      border: 1px solid rgba(249,115,22,0.25);
-    }
-
-    .badge-v2 {
-      background: rgba(96,165,250,0.15);
-      color: var(--blue);
-      border: 1px solid rgba(96,165,250,0.25);
-    }
-
-    .badge-none {
-      background: rgba(248,113,113,0.15);
-      color: var(--red);
-      border: 1px solid rgba(248,113,113,0.25);
-    }
-
-    /* Page info bar */
     .page-info {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 5px 8px;
-      overflow: hidden;
+      display: flex; align-items: center; gap: 6px;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 4px 8px; overflow: hidden;
     }
 
     .page-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      flex-shrink: 0;
-      box-shadow: 0 0 6px rgba(74,222,128,0.5);
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 5px rgba(74,222,128,.5); flex-shrink: 0;
     }
 
-    .page-url {
-      font-size: 10px;
-      color: var(--text2);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      flex: 1;
-    }
+    .page-url { font-size: 10px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
 
     /* ── Toolbar ── */
     .toolbar {
-      padding: 8px 14px;
+      padding: 7px 14px;
       background: var(--bg2);
       border-bottom: 1px solid var(--border);
-      display: flex;
-      gap: 6px;
-      align-items: center;
+      display: flex; gap: 6px; align-items: center;
       flex-shrink: 0;
     }
 
     .btn {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 10px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border2);
-      background: var(--bg3);
-      color: var(--text);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.15s;
-      white-space: nowrap;
+      display: flex; align-items: center; gap: 4px;
+      padding: 5px 9px; border-radius: var(--r);
+      border: 1px solid var(--border2); background: var(--bg3);
+      color: var(--text); font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; font-weight: 500; cursor: pointer; white-space: nowrap;
+      transition: all .15s;
     }
 
-    .btn:hover {
-      background: var(--border2);
-      border-color: var(--text3);
-    }
+    .btn:hover  { background: var(--border2); }
+    .btn:active { transform: scale(.97); }
 
-    .btn:active {
-      transform: scale(0.97);
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent2);
-      border-color: var(--accent2);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      border-color: transparent;
-      color: var(--text2);
-    }
-
-    .btn-ghost:hover {
-      background: var(--bg3);
-      color: var(--text);
-    }
-
-    .btn-success {
-      background: rgba(74,222,128,0.15);
-      border-color: rgba(74,222,128,0.3);
-      color: var(--green);
-    }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent2); border-color: var(--accent2); }
+    .btn-ghost   { background: transparent; border-color: transparent; color: var(--text2); }
+    .btn-ghost:hover { background: var(--bg3); color: var(--text); }
 
     .spacer { flex: 1; }
 
-    /* Format tabs */
-    .format-tabs {
-      display: flex;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
+    .format-tabs { display: flex; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
 
     .tab {
-      padding: 4px 8px;
-      font-size: 9px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      color: var(--text3);
-      transition: all 0.15s;
-      border: none;
-      background: transparent;
-      font-family: 'JetBrains Mono', monospace;
+      padding: 4px 8px; font-size: 9px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .5px; cursor: pointer;
+      color: var(--text3); border: none; background: transparent;
+      font-family: 'JetBrains Mono', monospace; transition: all .15s;
     }
 
-    .tab:hover { color: var(--text2); }
-    .tab.active {
+    .tab:hover  { color: var(--text2); }
+    .tab.active { background: var(--accent); color: #fff; }
+
+    /* ── Controls row ── */
+    .controls {
+      padding: 7px 14px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      display: flex; gap: 10px; align-items: center;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .toggle-group { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+
+    .toggle {
+      width: 28px; height: 15px;
+      background: var(--border2); border-radius: 10px;
+      position: relative; transition: background .2s; flex-shrink: 0;
+    }
+
+    .toggle::after {
+      content: ''; position: absolute;
+      width: 11px; height: 11px; background: var(--text2);
+      border-radius: 50%; top: 2px; left: 2px; transition: all .2s;
+    }
+
+    .toggle.on { background: var(--accent); }
+    .toggle.on::after { left: 15px; background: #fff; }
+
+    .toggle-label { font-size: 10px; color: var(--text2); user-select: none; }
+    .toggle-label b { color: var(--text); font-weight: 600; }
+
+    .ctrl-sep { width: 1px; height: 16px; background: var(--border2); }
+
+    /* Sliders */
+    .slider-group { display: flex; align-items: center; gap: 5px; }
+
+    .slider-label { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: .4px; white-space: nowrap; }
+
+    .slider-val { font-size: 10px; font-weight: 600; color: var(--accent2); min-width: 14px; text-align: center; }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 58px; height: 3px;
+      background: var(--border2);
+      border-radius: 2px; outline: none; cursor: pointer;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 10px; height: 10px;
       background: var(--accent);
-      color: #fff;
+      border-radius: 50%;
     }
 
-    /* ── Main content ── */
+    /* ── Size bar ── */
+    .size-bar {
+      display: none;
+      padding: 5px 14px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      align-items: center; gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .size-label { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; }
+    .size-val   { font-size: 10px; font-weight: 600; }
+    .size-ok    { color: var(--green); }
+    .size-med   { color: var(--yellow); }
+    .size-big   { color: var(--red); }
+    .size-arrow { color: var(--text3); font-size: 10px; }
+
+    /* ── Main ── */
     .main {
-      flex: 1;
-      overflow-y: auto;
-      padding: 10px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      flex: 1; overflow-y: auto; padding: 10px 14px;
+      display: flex; flex-direction: column; gap: 5px;
     }
 
     .main::-webkit-scrollbar { width: 4px; }
-    .main::-webkit-scrollbar-track { background: var(--bg); }
     .main::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 
-    /* Loading state */
+    /* States */
     .state-loading, .state-empty, .state-error {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 40px 20px;
-      color: var(--text3);
-      text-align: center;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 8px; padding: 36px 20px;
+      color: var(--text3); text-align: center;
     }
 
-    .state-icon { font-size: 32px; opacity: 0.5; }
-
-    .state-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--text2);
-    }
-
-    .state-desc { font-size: 11px; line-height: 1.6; max-width: 260px; }
+    .state-icon  { font-size: 28px; opacity: .5; }
+    .state-title { font-family: 'Syne', sans-serif; font-size: 13px; color: var(--text2); }
+    .state-desc  { font-size: 10px; line-height: 1.6; max-width: 260px; }
 
     .spinner {
-      width: 20px; height: 20px;
-      border: 2px solid var(--border2);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
+      width: 18px; height: 18px;
+      border: 2px solid var(--border2); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin .7s linear infinite;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* Component card */
     .component-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius2);
-      overflow: hidden;
-      transition: border-color 0.15s;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden; transition: border-color .15s;
     }
 
-    .component-card:hover {
-      border-color: var(--border2);
-    }
+    .component-card:hover  { border-color: var(--border2); }
+    .component-card.selected { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(249,115,22,.15); }
+    .component-card.child  { margin-left: 14px; border-left: 2px solid var(--border2); }
 
-    .component-card.selected {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(249,115,22,0.2);
-    }
-
-    .component-card.child {
-      margin-left: 16px;
-      border-left: 2px solid var(--border2);
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 10px;
-      cursor: pointer;
-      user-select: none;
-    }
-
+    .card-header { display: flex; align-items: center; gap: 7px; padding: 7px 9px; cursor: pointer; }
     .card-header:hover { background: var(--bg3); }
 
-    .card-checkbox {
-      width: 14px; height: 14px;
-      accent-color: var(--accent);
-      cursor: pointer;
-      flex-shrink: 0;
-    }
+    .card-checkbox { width: 13px; height: 13px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
 
     .card-icon {
-      width: 22px; height: 22px;
-      border-radius: 5px;
+      width: 20px; height: 20px; border-radius: 4px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 10px;
-      flex-shrink: 0;
+      font-size: 10px; flex-shrink: 0;
     }
 
-    .card-icon-lw {
-      background: rgba(249,115,22,0.15);
-      color: var(--accent);
-      border: 1px solid rgba(249,115,22,0.2);
-    }
+    .card-icon-lw    { background: rgba(249,115,22,.15); color: var(--accent);  border: 1px solid rgba(249,115,22,.2); }
+    .card-icon-child { background: rgba(96,165,250,.1);  color: var(--blue);    border: 1px solid rgba(96,165,250,.15); }
 
-    .card-icon-child {
-      background: rgba(96,165,250,0.1);
-      color: var(--blue);
-      border: 1px solid rgba(96,165,250,0.15);
-    }
-
-    .card-name {
-      font-weight: 600;
-      color: var(--text);
-      font-size: 11px;
-      flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .card-id {
-      font-size: 9px;
-      color: var(--text3);
-      font-weight: 400;
-    }
+    .card-name { font-weight: 600; color: var(--text); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .card-id   { font-size: 9px; color: var(--text3); }
 
     .card-props-count {
-      font-size: 9px;
-      padding: 2px 6px;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text3);
-      flex-shrink: 0;
+      font-size: 9px; padding: 2px 5px;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text3); flex-shrink: 0;
     }
 
-    .card-expand {
-      color: var(--text3);
-      font-size: 10px;
-      transition: transform 0.2s;
-      flex-shrink: 0;
-    }
+    .card-props-count.size-med { border-color: rgba(251,191,36,.3); color: var(--yellow); }
+    .card-props-count.size-big { border-color: rgba(248,113,113,.3); color: var(--red); }
 
+    .card-expand { color: var(--text3); font-size: 9px; transition: transform .2s; flex-shrink: 0; }
     .card-expand.open { transform: rotate(90deg); }
 
-    .card-body {
-      display: none;
-      border-top: 1px solid var(--border);
-    }
-
+    .card-body { display: none; border-top: 1px solid var(--border); }
     .card-body.open { display: block; }
 
-    .card-section {
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--border);
-    }
-
+    .card-section { padding: 7px 9px; border-bottom: 1px solid var(--border); }
     .card-section:last-child { border-bottom: none; }
 
-    .section-label {
-      font-size: 9px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--text3);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+    .section-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .7px; color: var(--text3); margin-bottom: 5px; }
 
-    .data-tree {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 6px 8px;
-      font-size: 10px;
-      line-height: 1.7;
-      overflow-x: auto;
-    }
-
+    .data-tree { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r); padding: 5px 7px; font-size: 10px; line-height: 1.7; overflow-x: auto; }
     .data-tree::-webkit-scrollbar { height: 3px; }
     .data-tree::-webkit-scrollbar-thumb { background: var(--border2); }
 
-    .prop-key { color: var(--blue); }
+    .prop-key    { color: var(--blue); }
     .prop-string { color: var(--green); }
     .prop-number { color: var(--yellow); }
-    .prop-bool { color: var(--purple); }
-    .prop-null { color: var(--text3); }
-    .prop-obj { color: var(--text2); }
-    .prop-arr { color: var(--accent2); }
+    .prop-bool   { color: var(--purple); }
+    .prop-null   { color: var(--text3); }
+    .prop-obj    { color: var(--text2); }
+    .prop-arr    { color: var(--accent2); }
 
-    /* Memo row */
-    .memo-grid {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 3px 8px;
-    }
+    .memo-grid { display: grid; grid-template-columns: auto 1fr; gap: 3px 8px; }
+    .memo-key  { color: var(--text3); font-size: 9px; text-transform: uppercase; letter-spacing: .4px; }
+    .memo-val  { color: var(--text2); font-size: 10px; word-break: break-all; }
+    .memo-val.method { text-transform: uppercase; font-weight: 600; color: var(--purple); font-size: 9px; }
 
-    .memo-key {
-      color: var(--text3);
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding-top: 1px;
-    }
-
-    .memo-val {
-      color: var(--text2);
-      font-size: 10px;
-      word-break: break-all;
-    }
-
-    .memo-val.method {
-      text-transform: uppercase;
-      font-weight: 600;
-      font-size: 9px;
-      color: var(--purple);
-    }
-
-    /* ── Output panel ── */
-    .output-panel {
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
+    /* ── Footer ── */
+    .footer {
+      background: var(--bg2); border-top: 1px solid var(--border);
+      padding: 7px 14px; display: flex; align-items: center; justify-content: space-between;
       flex-shrink: 0;
     }
 
-    .output-header {
-      padding: 8px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-    }
+    .footer-left  { display: flex; align-items: center; gap: 6px; }
+    .footer-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .7px; color: var(--text3); }
 
-    .output-label {
-      font-size: 9px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--text3);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    .sel-count { background: var(--accent); color: #fff; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 10px; }
 
-    .output-count {
-      background: var(--accent);
-      color: #fff;
-      font-size: 9px;
-      font-weight: 700;
-      padding: 1px 6px;
-      border-radius: 10px;
-    }
+    .stats { display: flex; gap: 0; }
 
-    .output-actions {
-      display: flex;
-      gap: 4px;
-    }
-
-    /* Stats bar */
-    .stats-bar {
-      display: flex;
-      gap: 0;
-      padding: 0 14px 8px;
-    }
-
-    .stat {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding-right: 10px;
-      margin-right: 10px;
-      border-right: 1px solid var(--border);
-      font-size: 9px;
-      color: var(--text3);
-    }
-
-    .stat:last-child { border-right: none; }
-
-    .stat-val {
-      font-weight: 700;
-      font-size: 11px;
-    }
-
-    .stat-val.green { color: var(--green); }
-    .stat-val.orange { color: var(--accent2); }
-    .stat-val.blue { color: var(--blue); }
+    .stat { display: flex; align-items: center; gap: 3px; padding-right: 8px; margin-right: 8px; border-right: 1px solid var(--border); font-size: 9px; color: var(--text3); }
+    .stat:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+    .stat-val { font-weight: 700; font-size: 10px; }
+    .stat-val.g { color: var(--green); }
+    .stat-val.o { color: var(--accent2); }
+    .stat-val.b { color: var(--blue); }
 
     /* Toast */
     .toast {
-      position: fixed;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%) translateY(30px);
-      background: var(--green);
-      color: #0d0f14;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 20px;
-      opacity: 0;
-      transition: all 0.25s;
-      pointer-events: none;
-      white-space: nowrap;
+      position: fixed; bottom: 10px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--green); color: #0d0f14;
+      font-size: 11px; font-weight: 700; padding: 5px 14px;
+      border-radius: 20px; opacity: 0; transition: all .2s;
+      pointer-events: none; white-space: nowrap;
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* Options toggle */
-    .options-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .toggle-wrap {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      cursor: pointer;
-    }
-
-    .toggle {
-      width: 28px; height: 15px;
-      background: var(--border2);
-      border-radius: 10px;
-      position: relative;
-      transition: background 0.2s;
-      flex-shrink: 0;
-    }
-
-    .toggle::after {
-      content: '';
-      position: absolute;
-      width: 11px; height: 11px;
-      background: var(--text2);
-      border-radius: 50%;
-      top: 2px; left: 2px;
-      transition: all 0.2s;
-    }
-
-    .toggle.on { background: var(--accent); }
-    .toggle.on::after { left: 15px; background: #fff; }
-
-    .toggle-label { font-size: 10px; color: var(--text2); }
-
-    /* Divider */
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 2px 0;
-    }
-
-    /* Select all row */
-    .select-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      margin-bottom: 4px;
-    }
-
-    .select-label {
-      font-size: 10px;
-      color: var(--text2);
-      flex: 1;
-    }
-
-    .select-link {
-      font-size: 10px;
-      color: var(--accent2);
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .select-link:hover { text-decoration: underline; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
@@ -650,22 +343,61 @@
 
   <!-- Toolbar -->
   <div class="toolbar">
-    <button class="btn btn-primary" id="btn-extract">
-      <span>↻</span> Extract
-    </button>
+    <button class="btn btn-primary" id="btn-extract">↻ Extract</button>
 
     <div class="format-tabs">
       <button class="tab active" data-fmt="markdown">MD</button>
       <button class="tab" data-fmt="json">JSON</button>
-      <button class="tab" data-fmt="compact">Compact</button>
+      <button class="tab" data-fmt="compact">Min</button>
     </div>
 
     <div class="spacer"></div>
 
-    <div class="toggle-wrap" id="toggle-full" title="Include full raw snapshot">
+    <div class="toggle-group" id="toggle-full" title="Include raw snapshot (only when Slim is OFF)">
       <div class="toggle" id="toggle-full-knob"></div>
-      <span class="toggle-label">Full</span>
+      <span class="toggle-label">Raw</span>
     </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <!-- Slim mode -->
+    <div class="toggle-group" id="toggle-slim" title="Remove Livewire internals (checksum, htmlHash, dataMeta…)">
+      <div class="toggle" id="toggle-slim-knob"></div>
+      <span class="toggle-label"><b>Slim</b></span>
+    </div>
+
+    <div class="ctrl-sep"></div>
+
+    <!-- Depth -->
+    <div class="slider-group" title="Max nesting depth of objects/arrays">
+      <span class="slider-label">Depth</span>
+      <input type="range" id="depth-range" min="1" max="6" value="3" step="1">
+      <span class="slider-val" id="depth-val">3</span>
+    </div>
+
+    <!-- Array len -->
+    <div class="slider-group" title="Max array items to show">
+      <span class="slider-label">Arr</span>
+      <input type="range" id="arr-range" min="2" max="20" value="5" step="1">
+      <span class="slider-val" id="arr-val">5</span>
+    </div>
+
+    <!-- String len -->
+    <div class="slider-group" title="Max string length">
+      <span class="slider-label">Str</span>
+      <input type="range" id="str-range" min="40" max="500" value="120" step="20">
+      <span class="slider-val" id="str-val">120</span>
+    </div>
+  </div>
+
+  <!-- Size bar -->
+  <div class="size-bar" id="size-info" style="display:none">
+    <span class="size-label">Raw</span>
+    <span class="size-val size-big" id="size-raw">—</span>
+    <span class="size-arrow">→</span>
+    <span class="size-label">Output</span>
+    <span class="size-val size-ok" id="size-out-wrap"><span id="size-out">—</span></span>
   </div>
 
   <!-- Main -->
@@ -678,7 +410,7 @@
     <div class="state-empty" id="state-empty" style="display:none">
       <div class="state-icon">🔍</div>
       <div class="state-title">No Livewire Components</div>
-      <div class="state-desc">No <code>wire:snapshot</code> or <code>wire:id</code> attributes found on this page. Make sure you're on a Livewire page.</div>
+      <div class="state-desc">Nenhum <code>wire:snapshot</code> ou <code>wire:id</code> encontrado nesta página.</div>
     </div>
 
     <div class="state-error" id="state-error" style="display:none">
@@ -690,37 +422,26 @@
     <div id="component-list" style="display:none"></div>
   </div>
 
-  <!-- Output Panel -->
-  <div class="output-panel" id="output-panel">
-    <div class="output-header">
-      <div class="output-label">
-        Claude Code Context
-        <span class="output-count" id="selected-count">0</span>
-      </div>
-      <div class="output-actions">
-        <button class="btn btn-ghost" id="btn-select-all" title="Select all components">All</button>
-        <button class="btn" id="btn-copy" title="Copy to clipboard">
-          ⎘ Copy
-        </button>
+  <!-- Footer -->
+  <div class="footer" id="output-panel">
+    <div class="footer-left">
+      <span class="footer-label">Context</span>
+      <span class="sel-count" id="selected-count">0</span>
+
+      <div class="stats" id="stats-bar" style="display:none">
+        <div class="stat"><span class="stat-val g" id="stat-total">0</span>&nbsp;comp</div>
+        <div class="stat"><span class="stat-val o" id="stat-roots">0</span>&nbsp;root</div>
+        <div class="stat"><span class="stat-val b" id="stat-props">0</span>&nbsp;props</div>
       </div>
     </div>
-    <div class="stats-bar" id="stats-bar" style="display:none">
-      <div class="stat">
-        <span class="stat-val green" id="stat-total">0</span>
-        <span>components</span>
-      </div>
-      <div class="stat">
-        <span class="stat-val orange" id="stat-roots">0</span>
-        <span>roots</span>
-      </div>
-      <div class="stat">
-        <span class="stat-val blue" id="stat-props">0</span>
-        <span>total props</span>
-      </div>
+
+    <div style="display:flex;gap:5px">
+      <button class="btn btn-ghost" id="btn-select-all">None</button>
+      <button class="btn" id="btn-copy">⎘ Copy</button>
     </div>
   </div>
 
-  <div class="toast" id="toast">✓ Copied to clipboard!</div>
+  <div class="toast" id="toast"></div>
 
   <script src="popup.js"></script>
 </body>

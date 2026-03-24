@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Livewire Snapshot Extractor",
   "version": "1.0.0",
-  "description": "Extract Livewire component snapshots for Claude Code context",
+  "description": "Extract Livewire component snapshots (v2, v3, v4) as structured context for Claude Code and other AI coding assistants",
   "permissions": ["activeTab", "scripting", "clipboardWrite"],
   "host_permissions": ["<all_urls>"],
   "action": {

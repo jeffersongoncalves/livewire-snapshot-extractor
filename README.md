@@ -18,7 +18,7 @@ Extensão Chrome para extrair snapshots dos componentes Livewire de qualquer pá
 
 ## 💡 Como usar
 
-1. Navegue até qualquer página que use **Livewire v2 ou v3**
+1. Navegue até qualquer página que use **Livewire v2, v3 ou v4**
 2. Clique no ícone ⚡ na barra de extensões
 3. Os componentes da tela serão extraídos automaticamente
 4. Selecione quais componentes quer incluir no contexto
@@ -73,6 +73,7 @@ Saída mínima para contexto rápido sem muito overhead.
 
 | Versão Livewire | Suporte |
 |-----------------|---------|
+| Livewire 4.x    | ✅ Full (via `wire:snapshot`) |
 | Livewire 3.x    | ✅ Full (via `wire:snapshot`) |
 | Livewire 2.x    | ✅ Parcial (via `wire:initial-data`) |
 

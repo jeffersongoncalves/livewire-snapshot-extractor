@@ -204,8 +204,7 @@
     .main::-webkit-scrollbar { width: 4px; }
     .main::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 
-    /* States */
-    .state-loading, .state-empty, .state-error {
+    .state-loading, .state-empty, .state-error, .state-no-lw {
       display: flex; flex-direction: column; align-items: center;
       justify-content: center; gap: 8px; padding: 36px 20px;
       color: var(--text3); text-align: center;
@@ -214,6 +213,20 @@
     .state-icon  { font-size: 28px; opacity: .5; }
     .state-title { font-family: 'Syne', sans-serif; font-size: 13px; color: var(--text2); }
     .state-desc  { font-size: 10px; line-height: 1.6; max-width: 260px; }
+
+    .state-no-lw .state-icon { opacity: .7; }
+
+    /* detection signals list */
+    .signal-list { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+    .signal-row  { display: flex; align-items: center; gap: 6px; font-size: 10px; }
+    .signal-dot  { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .signal-dot.found   { background: var(--green); box-shadow: 0 0 4px rgba(74,222,128,.5); }
+    .signal-dot.missing { background: var(--text3); }
+
+    /* page dot states */
+    .page-dot.scanning { background: var(--yellow);  box-shadow: 0 0 5px rgba(251,191,36,.5); }
+    .page-dot.no-lw    { background: var(--text3);   box-shadow: none; }
+    .page-dot.found    { background: var(--green);   box-shadow: 0 0 5px rgba(74,222,128,.5); }
 
     .spinner {
       width: 18px; height: 18px;
@@ -404,13 +417,20 @@
   <div class="main" id="main">
     <div class="state-loading" id="state-loading">
       <div class="spinner"></div>
-      <div class="state-title">Extracting...</div>
+      <div class="state-title" id="loading-title">Detecting Livewire...</div>
+    </div>
+
+    <div class="state-no-lw" id="state-no-lw" style="display:none">
+      <div class="state-icon">🚫</div>
+      <div class="state-title">No Livewire on this page</div>
+      <div class="state-desc">None of the Livewire signals were found. Make sure you are on a page that uses Livewire.</div>
+      <div class="signal-list" id="signal-list"></div>
     </div>
 
     <div class="state-empty" id="state-empty" style="display:none">
       <div class="state-icon">🔍</div>
-      <div class="state-title">No Livewire Components</div>
-      <div class="state-desc">Nenhum <code>wire:snapshot</code> ou <code>wire:id</code> encontrado nesta página.</div>
+      <div class="state-title">Livewire found, no components</div>
+      <div class="state-desc">Livewire is present but no <code>wire:snapshot</code> or <code>wire:id</code> attributes were found in the DOM. The page may not have rendered any components yet.</div>
     </div>
 
     <div class="state-error" id="state-error" style="display:none">

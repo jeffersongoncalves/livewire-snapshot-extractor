@@ -2,10 +2,11 @@
  * Livewire Snapshot Extractor — Content Script
  * Runs in the page context to extract Livewire v2/v3/v4 component snapshots.
  *
- * Slim mode strips internal Livewire metadata (checksum, serverMemo internals,
- * htmlHash, etc.) and truncates large arrays/nested objects to keep the output
- * small enough to be useful as Claude Code context.
+ * Wrapped in a once-guard so repeated executeScript calls (re-extract) never
+ * throw "Identifier already declared" errors for top-level const declarations.
  */
+if (!window.__livewireExtractorLoaded) {
+window.__livewireExtractorLoaded = true;
 
 // ─── Livewire-internal keys that add noise and no AI value ───────────
 const MEMO_NOISE_KEYS = new Set([
@@ -213,3 +214,5 @@ function extractLivewireSnapshots(slimMode = true) {
 
 // Expose extractor for direct call via scripting.executeScript
 window.__livewireExtractor = extractLivewireSnapshots;
+
+} // end once-guard

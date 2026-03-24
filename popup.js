@@ -14,10 +14,12 @@ let pruneOpts      = { maxDepth: 3, maxArrayLen: 5, maxStrLen: 120, maxObjKeys: 
 const $ = id => document.getElementById(id);
 const elLoading       = $('state-loading');
 const elEmpty         = $('state-empty');
+const elNoLw          = $('state-no-lw');
 const elError         = $('state-error');
 const elErrorDesc     = $('error-desc');
 const elList          = $('component-list');
 const elPageUrl       = $('page-url');
+const elPageDot       = document.querySelector('.page-dot');
 const elVersionBadge  = $('version-badge');
 const elSelectedCount = $('selected-count');
 const elStatTotal     = $('stat-total');
@@ -30,6 +32,8 @@ const elToggleFull    = $('toggle-full-knob');
 const elSizeInfo      = $('size-info');
 const elSizeRaw       = $('size-raw');
 const elSizeOut       = $('size-out');
+const elLoadingTitle  = $('loading-title');
+const elSignalList    = $('signal-list');
 
 // ── Init ──────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -90,9 +94,26 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// ── Livewire detection probe (runs before full injection) ─────────────
+// Returns { detected: bool, signals: [{label, found}] }
+function probeFunc() {
+  const signals = [
+    { label: 'window.Livewire',       found: typeof window.Livewire !== 'undefined' },
+    { label: 'wire:snapshot in DOM',  found: document.querySelector('[wire\\:snapshot]') !== null },
+    { label: 'wire:id in DOM',        found: document.querySelector('[wire\\:id]') !== null },
+    { label: 'Livewire script tag',   found: Array.from(document.querySelectorAll('script[src]'))
+        .some(s => /livewire/i.test(s.src)) },
+    { label: '@livewireScripts',      found: document.querySelector('script[data-livewire-scripts]') !== null
+        || /livewire\/livewire\.js/i.test(document.documentElement.innerHTML) },
+  ];
+  return { detected: signals.some(s => s.found), signals };
+}
+
 // ── Extraction ────────────────────────────────────────────────────────
 async function runExtraction() {
   showState('loading');
+  setDot('scanning');
+  elLoadingTitle.textContent = 'Detecting Livewire...';
   selectedIds.clear();
   extractedData = null;
   elSizeInfo.style.display = 'none';
@@ -102,8 +123,22 @@ async function runExtraction() {
     if (!tab?.id) throw new Error('No active tab found');
     elPageUrl.textContent = tab.url || '';
 
-    // Inject content script then call the extractor directly.
-    // activeTab permission grants scripting access on user gesture — no host_permissions needed.
+    // ── Step 1: fast probe — no full script injection yet ──────────────
+    const [{ result: probe }] = await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: probeFunc,
+    });
+
+    if (!probe.detected) {
+      setDot('no-lw');
+      renderSignals(probe.signals);
+      showState('no-lw');
+      return;
+    }
+
+    // ── Step 2: Livewire confirmed — run full extraction ───────────────
+    elLoadingTitle.textContent = 'Extracting components...';
+
     await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       files: ['src/content.js'],
@@ -119,8 +154,14 @@ async function runExtraction() {
     if (result.errors?.some(e => e.fatal)) throw new Error(result.errors[0].message);
 
     extractedData = result;
-    if (!extractedData.components?.length) { showState('empty'); return; }
 
+    if (!extractedData.components?.length) {
+      setDot('no-lw');
+      showState('empty');
+      return;
+    }
+
+    setDot('found');
     updateVersionBadge(extractedData.version);
     renderComponents(extractedData.components);
     extractedData.components.forEach(c => selectedIds.add(c.id));
@@ -129,9 +170,29 @@ async function runExtraction() {
     updateSizeInfo();
     showState('list');
   } catch (err) {
+    setDot('no-lw');
     elErrorDesc.textContent = err.message || String(err);
     showState('error');
   }
+}
+
+function setDot(state) {
+  elPageDot.className = 'page-dot ' + state;
+}
+
+function renderSignals(signals) {
+  elSignalList.innerHTML = '';
+  signals.forEach(({ label, found }) => {
+    const row = document.createElement('div');
+    row.className = 'signal-row';
+    const dot = document.createElement('span');
+    dot.className = 'signal-dot ' + (found ? 'found' : 'missing');
+    const txt = document.createElement('span');
+    txt.textContent = label;
+    txt.style.color = found ? 'var(--green)' : 'var(--text3)';
+    row.append(dot, txt);
+    elSignalList.appendChild(row);
+  });
 }
 
 function rerenderList() {
@@ -526,10 +587,13 @@ function buildOutput() {
 function showState(state) {
   elLoading.style.display = 'none';
   elEmpty.style.display   = 'none';
+  elNoLw.style.display    = 'none';
   elError.style.display   = 'none';
   elList.style.display    = 'none';
+
   ({ loading: () => elLoading.style.display = 'flex',
      empty:   () => elEmpty.style.display   = 'flex',
+     'no-lw': () => elNoLw.style.display    = 'flex',
      error:   () => elError.style.display   = 'flex',
      list:    () => { elList.style.display = 'flex'; elList.style.flexDirection = 'column'; }
   })[state]?.();

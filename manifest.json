@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Livewire Snapshot Extractor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Extract Livewire component snapshots (v2, v3, v4) as structured context for Claude Code and other AI coding assistants",
   "permissions": ["activeTab", "scripting", "clipboardWrite"],
   "action": {

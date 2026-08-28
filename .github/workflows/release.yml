@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Build extension zip
+        run: |
+          zip -r "livewire-snapshot-extractor-${GITHUB_REF_NAME}.zip" \
+            manifest.json \
+            popup.html \
+            popup.js \
+            src \
+            icons
+
+      - name: Attach zip to release
+        uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3.0.2
+        with:
+          files: livewire-snapshot-extractor-*.zip
+          generate_release_notes: true

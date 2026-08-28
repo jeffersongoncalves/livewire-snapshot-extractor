@@ -126,7 +126,7 @@ Para modificar a extensão:
 
 ## 🔒 Privacidade
 
-[Política de Privacidade](https://jeffersongoncalves.github.io/lw-snapshot-extractor/privacy.html) — nenhum dado é coletado, sem requisições de rede, sem rastreamento.
+[Política de Privacidade](https://jeffersongoncalves.github.io/livewire-snapshot-extractor/privacy.html) — nenhum dado é coletado, sem requisições de rede, sem rastreamento.
 
 ---
 

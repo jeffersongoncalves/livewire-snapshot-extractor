@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Livewire Snapshot Extractor</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0d0f14;
+      color: #e2e6f0;
+      line-height: 1.7;
+      padding: 48px 24px 80px;
+    }
+
+    .wrap {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 36px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #252a36;
+    }
+
+    .icon {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, #f97316, #c2410c);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(249,115,22,.3);
+    }
+
+    .header-text h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #f97316;
+    }
+
+    .header-text p {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(249,115,22,.12);
+      color: #fb923c;
+      border: 1px solid rgba(249,115,22,.25);
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 10px;
+      margin-top: 8px;
+    }
+
+    .summary {
+      background: rgba(74,222,128,.07);
+      border: 1px solid rgba(74,222,128,.2);
+      border-left: 4px solid #4ade80;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 36px;
+      font-size: 14px;
+      color: #d1fae5;
+    }
+
+    .summary strong { color: #4ade80; }
+
+    h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #e2e6f0;
+      margin: 32px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #252a36;
+    }
+
+    p {
+      font-size: 14px;
+      color: #8892a4;
+      margin-bottom: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 4px 0 20px;
+      font-size: 13px;
+    }
+
+    th {
+      background: #13161d;
+      color: #8892a4;
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 14px;
+      border: 1px solid #252a36;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    td {
+      padding: 10px 14px;
+      border: 1px solid #252a36;
+      color: #8892a4;
+      vertical-align: top;
+    }
+
+    td:first-child {
+      color: #e2e6f0;
+      font-weight: 600;
+      white-space: nowrap;
+      width: 36%;
+    }
+
+    tr:nth-child(even) td { background: #13161d; }
+
+    code {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 12px;
+      background: #1a1e27;
+      color: #fb923c;
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid #252a36;
+    }
+
+    .footer {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid #252a36;
+      font-size: 12px;
+      color: #545f72;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .footer a { color: #fb923c; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="icon">⚡</div>
+    <div class="header-text">
+      <h1>Livewire Snapshot Extractor</h1>
+      <p>Chrome Extension · v1.0.2</p>
+      <span class="badge">Privacy Policy</span>
+    </div>
+  </div>
+
+  <div class="summary">
+    <strong>Short version:</strong> This extension collects <strong>no data</strong>.
+    It runs entirely in your local browser, makes no network requests, and never
+    transmits anything anywhere. No accounts, no tracking, no analytics.
+  </div>
+
+  <h2>Effective Date</h2>
+  <p>This policy is effective as of <strong>2026-08-28</strong> and applies to all versions of the extension.</p>
+
+  <h2>What This Extension Does</h2>
+  <p>
+    Livewire Snapshot Extractor reads <code>wire:snapshot</code> and <code>wire:id</code>
+    HTML attributes from the page you are currently viewing, reconstructs the Livewire
+    component tree, and formats it as structured context (Markdown, JSON, or Compact)
+    that you copy to your clipboard — handy for pasting into Claude Code or another AI
+    coding assistant. It supports Livewire v2, v3, and v4. All processing happens
+    locally in your browser tab — nothing leaves your machine.
+  </p>
+
+  <h2>Data Practices</h2>
+  <table>
+    <tr><th>Category</th><th>Practice</th></tr>
+    <tr><td>Data collection</td><td>None. No user data is collected, stored, or transmitted.</td></tr>
+    <tr><td>Network requests</td><td>None. The extension makes zero outbound HTTP requests to any server.</td></tr>
+    <tr><td>Local storage</td><td>None. Nothing is written to <code>chrome.storage</code>, <code>localStorage</code>, cookies, or any database.</td></tr>
+    <tr><td>Third-party services</td><td>None. No analytics, advertising, crash-reporting SDKs, or external libraries are used.</td></tr>
+    <tr><td>User accounts</td><td>Not required. The extension works without any login or registration.</td></tr>
+    <tr><td>Data sharing</td><td>No data is shared with any third party under any circumstances.</td></tr>
+    <tr><td>Telemetry</td><td>None. No usage statistics or error reports are sent anywhere.</td></tr>
+  </table>
+
+  <h2>Permissions &amp; Why They Are Needed</h2>
+  <table>
+    <tr><th>Permission</th><th>Why it is needed</th></tr>
+    <tr>
+      <td><code>activeTab</code></td>
+      <td>
+        Grants temporary access to the currently active tab when the user explicitly
+        clicks the extension icon. Used to detect Livewire and read
+        <code>wire:snapshot</code> / <code>wire:id</code> attributes from the DOM.
+        Access is revoked as soon as the popup closes.
+      </td>
+    </tr>
+    <tr>
+      <td><code>scripting</code></td>
+      <td>
+        Allows injecting the extraction script into the active tab on demand.
+        The script is only injected after the user clicks Extract and only into
+        the tab that is currently open. No background injection occurs.
+      </td>
+    </tr>
+    <tr>
+      <td><code>clipboardWrite</code></td>
+      <td>
+        Writes the formatted Livewire context output to the system clipboard
+        when the user clicks the Copy button. No clipboard read access is requested.
+      </td>
+    </tr>
+  </table>
+
+  <p>
+    This extension does <strong>not</strong> request <code>host_permissions</code>
+    or <code>&lt;all_urls&gt;</code>. It uses only the <code>activeTab</code>
+    permission which is scoped to a single user-initiated action and does not
+    grant persistent or background access to any website.
+  </p>
+
+  <h2>How Livewire Detection Works</h2>
+  <p>
+    Before running the full extractor, the extension performs a lightweight probe
+    that checks for the presence of <code>window.Livewire</code>, <code>[wire:snapshot]</code>,
+    <code>[wire:id]</code>, and Livewire script tags. This probe runs inline without
+    injecting any file and produces no side effects. If no Livewire signals are found,
+    the extension stops and displays a "No Livewire on this page" message.
+  </p>
+
+  <h2>Children's Privacy</h2>
+  <p>
+    This extension is a developer tool intended for software developers.
+    It does not contain content directed at children and does not knowingly
+    collect any information from minors.
+  </p>
+
+  <h2>Changes to This Policy</h2>
+  <p>
+    If this policy is ever updated, the new version will be published at this URL
+    with an updated effective date. Because no data is collected, no retroactive
+    changes to data handling are possible.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about this privacy policy? Open an issue on
+    <a href="https://github.com/jeffersongoncalves/livewire-snapshot-extractor" style="color:#fb923c">
+      github.com/jeffersongoncalves/livewire-snapshot-extractor
+    </a>.
+  </p>
+
+  <div class="footer">
+    <span>⚡ Livewire Snapshot Extractor · v1.0.2</span>
+    <span>Effective 2026-08-28 · No data collected</span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,5 +1,7 @@
 # ⚡ Livewire Snapshot Extractor
 
+![Livewire Snapshot Extractor](banners/livewire-snapshot-extractor.png)
+
 Extensão Chrome para extrair snapshots dos componentes Livewire de qualquer página e formatá-los como contexto para o **Claude Code**.
 
 ---
@@ -119,6 +121,12 @@ Para modificar a extensão:
 1. Edite os arquivos conforme necessário
 2. Em `chrome://extensions/`, clique em **↻ Atualizar** na extensão
 3. Recarregue a página alvo e teste novamente
+
+---
+
+## 🔒 Privacidade
+
+[Política de Privacidade](https://jeffersongoncalves.github.io/lw-snapshot-extractor/privacy.html) — nenhum dado é coletado, sem requisições de rede, sem rastreamento.
 
 ---
 
